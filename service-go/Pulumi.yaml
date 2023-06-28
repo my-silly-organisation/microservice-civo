@@ -1,0 +1,10 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: go
+config:
+  infra:stack-reference-name: changeme
+  application-name: changeme
+  application-namespace: changeme
+  application-repo-path: changeme
+  application-repo-url: changeme
+  application-repo-target-revision: changeme
