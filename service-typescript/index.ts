@@ -16,7 +16,7 @@ new k8s.apiextensions.CustomResource("microservice", {
     kind: "Application",
     metadata: {
         name: cfg.require("application-name"),
-        namespace: infraStackReference.getOutput("argoNamespace"),
+        namespace: infraStackReference.getOutput("ArgoNamespace"),
     },
     otherFields: {
         spec: {

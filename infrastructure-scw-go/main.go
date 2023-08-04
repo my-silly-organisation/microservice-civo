@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/dirien/pulumi-scaleway/sdk/v2/go/scaleway"
 	"github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes"
-	"github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/helm/v3"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
 )
@@ -70,7 +69,7 @@ func main() {
 		if err != nil {
 			return err
 		}
-		ctx.Export("argoNamespace", argo.Namespace)
+		ctx.Export("ArgoNamespace", argo.Namespace)
 
 		return nil
 	})

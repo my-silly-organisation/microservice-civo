@@ -31,7 +31,7 @@ func main() {
 			Kind:       pulumi.String("Application"),
 			Metadata: &metav1.ObjectMetaArgs{
 				Name:      pulumi.String(config.Require(ctx, "application-name")),
-				Namespace: infraStackReference.GetStringOutput(pulumi.String("argoNamespace")),
+				Namespace: infraStackReference.GetStringOutput(pulumi.String("ArgoNamespace")),
 			},
 			OtherFields: kubernetes.UntypedArgs{
 				"spec": pulumi.Map{

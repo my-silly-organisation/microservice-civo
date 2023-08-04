@@ -58,4 +58,4 @@ const argo = new k8s.helm.v3.Release("argo", {
 export const ClusterName = cluster.name
 export const ClusterId = cluster.id
 export const kubeconfig = pulumi.secret(cluster.kubeconfigs[0].configFile)
-export const argoNamespace = argo.namespace
+export const ArgoNamespace = argo.namespace
