@@ -11,5 +11,6 @@ cluster = civo.KubernetesCluster('civo-k3s-cluster',
                                      size="g4s.kube.medium",
                                  ))
 
-pulumi.export('cluster_name', cluster.name)
+pulumi.export('ClusterName', cluster.name)
+pulumi.export('ClusterId', cluster.id)
 pulumi.export('kubeconfig', pulumi.Output.secret(cluster.kubeconfig))

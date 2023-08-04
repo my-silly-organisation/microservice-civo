@@ -37,6 +37,7 @@ func main() {
 		})
 
 		ctx.Export("ClusterName", cluster.Name)
+		ctx.Export("ClusterId", cluster.ID())
 		ctx.Export("NodePoolName", defaultNodePool.Name)
 		// Export the name of the bucket.
 		ctx.Export("kubeconfig", pulumi.ToSecret(cluster.Kubeconfigs.Index(pulumi.Int(0)).ConfigFile()))

@@ -24,7 +24,8 @@ func main() {
 			return err
 		}
 
-		ctx.Export("name", cluster.Name)
+		ctx.Export("ClusterName", cluster.Name)
+		ctx.Export("ClusterId", cluster.ID())
 		ctx.Export("kubeconfig", pulumi.ToSecret(cluster.Kubeconfig))
 		return nil
 	})

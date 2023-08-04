@@ -13,5 +13,6 @@ const cluster = new civo.KubernetesCluster("civo-k3s-cluster", {
     firewallId: firewall.id,
 })
 
-export const clusterName = cluster.name
+export const ClusterName = cluster.name
+export const ClusterId = cluster.id
 export const kubeconfig = pulumi.secret(cluster.kubeconfig);
