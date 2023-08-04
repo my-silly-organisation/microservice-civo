@@ -11,31 +11,12 @@ const k8sProvider = new k8s.Provider("k8s", {
     enableServerSideApply: true,
 });
 
-const argo = new k8s.helm.v3.Release("argo", {
-    chart: "argo-cd",
-    version: "5.42.1",
-    repositoryOpts: {
-        repo: "https://argoproj.github.io/argo-helm",
-    },
-    namespace: "argo",
-    createNamespace: true,
-    values: {
-        configs: {
-            params: {
-                "server\.insecure": true,
-            }
-        }
-    }
-}, {
-    provider: k8sProvider,
-});
-
 new k8s.apiextensions.CustomResource("microservice", {
     apiVersion: "argoproj.io/v1alpha1",
     kind: "Application",
     metadata: {
         name: cfg.require("application-name"),
-        namespace: argo.namespace,
+        namespace: infraStackReference.getOutput("argoNamespace"),
     },
     otherFields: {
         spec: {
@@ -58,6 +39,5 @@ new k8s.apiextensions.CustomResource("microservice", {
         }
     }
 }, {
-    provider: k8sProvider,
-    dependsOn: [argo],
+    provider: k8sProvider
 })

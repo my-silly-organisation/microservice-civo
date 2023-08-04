@@ -2,6 +2,8 @@ package main
 
 import (
 	"github.com/dirien/pulumi-scaleway/sdk/v2/go/scaleway"
+	"github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes"
+	"github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/helm/v3"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
 )
@@ -41,6 +43,35 @@ func main() {
 		ctx.Export("NodePoolName", defaultNodePool.Name)
 		// Export the name of the bucket.
 		ctx.Export("kubeconfig", pulumi.ToSecret(cluster.Kubeconfigs.Index(pulumi.Int(0)).ConfigFile()))
+
+		k8sProvider, err := kubernetes.NewProvider(ctx, "kubernetes", &kubernetes.ProviderArgs{
+			Kubeconfig:            cluster.Kubeconfigs.Index(pulumi.Int(0)).ConfigFile(),
+			EnableServerSideApply: pulumi.BoolPtr(true),
+		})
+		if err != nil {
+			return err
+		}
+		argo, err := helm.NewRelease(ctx, "argo", &helm.ReleaseArgs{
+			Chart:           pulumi.String("argo-cd"),
+			Version:         pulumi.String("5.42.1"),
+			Namespace:       pulumi.String("argocd"),
+			CreateNamespace: pulumi.BoolPtr(true),
+			RepositoryOpts: helm.RepositoryOptsArgs{
+				Repo: pulumi.String("https://argoproj.github.io/argo-helm"),
+			},
+			Values: pulumi.Map{
+				"config": pulumi.Map{
+					"params": pulumi.Map{
+						"server.insecure": pulumi.BoolPtr(true),
+					},
+				},
+			},
+		}, pulumi.Provider(k8sProvider))
+		if err != nil {
+			return err
+		}
+		ctx.Export("argoNamespace", argo.Namespace)
+
 		return nil
 	})
 }
