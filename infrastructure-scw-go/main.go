@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/dirien/pulumi-scaleway/sdk/v2/go/scaleway"
 	"github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes"
+	helm "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/helm/v3"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
 )
