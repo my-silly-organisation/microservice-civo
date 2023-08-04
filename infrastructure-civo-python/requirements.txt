@@ -1,2 +1,0 @@
-pulumi>=3.76.1
-pulumi-civo>=2.3.8

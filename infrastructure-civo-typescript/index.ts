@@ -17,7 +17,9 @@ const cluster = new civo.KubernetesCluster("civo-k3s-cluster", {
 const k8sProvider = new k8s.Provider("k8s", {
     kubeconfig: cluster.kubeconfig,
     enableServerSideApply: true,
-});
+}, {
+    dependsOn: [cluster]
+})
 
 const argo = new k8s.helm.v3.Release("argo", {
     chart: "argo-cd",

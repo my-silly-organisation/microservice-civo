@@ -32,7 +32,9 @@ const defaultNodePool = new scaleway.K8sPool("default-node-pool", {
 const k8sProvider = new k8s.Provider("k8s", {
     kubeconfig: cluster.kubeconfigs[0].configFile,
     enableServerSideApply: true,
-});
+}, {
+    dependsOn: [cluster, defaultNodePool]
+})
 
 const argo = new k8s.helm.v3.Release("argo", {
     chart: "argo-cd",

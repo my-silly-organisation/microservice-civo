@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/pulumi/pulumi-civo/sdk/v2/go/civo"
 	"github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes"
-	"github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/helm/v3"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
@@ -33,7 +32,7 @@ func main() {
 		k8sProvider, err := kubernetes.NewProvider(ctx, "kubernetes", &kubernetes.ProviderArgs{
 			Kubeconfig:            cluster.Kubeconfig,
 			EnableServerSideApply: pulumi.BoolPtr(true),
-		})
+		}, pulumi.DependsOn([]pulumi.Resource{cluster}))
 		if err != nil {
 			return err
 		}

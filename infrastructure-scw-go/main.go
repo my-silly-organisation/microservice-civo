@@ -47,7 +47,7 @@ func main() {
 		k8sProvider, err := kubernetes.NewProvider(ctx, "kubernetes", &kubernetes.ProviderArgs{
 			Kubeconfig:            cluster.Kubeconfigs.Index(pulumi.Int(0)).ConfigFile(),
 			EnableServerSideApply: pulumi.BoolPtr(true),
-		})
+		}pulumi.DependsOn([]pulumi.Resource{cluster, defaultNodePool}))
 		if err != nil {
 			return err
 		}
